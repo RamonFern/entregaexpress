@@ -18,7 +18,7 @@ public class EntregaServico {
   @Autowired
   private RespostaModelo rm;
 
-  public ResponseEntity<?> cadastrar(EntregaModel em) {
+  public ResponseEntity<?> cadastrarAlterar(EntregaModel em, String acao) {
     if(em.getNome().equals("")) {
       rm.setMensagem("O nome da entraga é obrigatório");
       return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
@@ -26,7 +26,11 @@ public class EntregaServico {
       rm.setMensagem("A quantidade é obrigatório");
       return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
     } else {
-      return new ResponseEntity<EntregaModel>(er.save(em), HttpStatus.CREATED);
+      if(acao.equals("cadastrar")) {
+        return new ResponseEntity<EntregaModel>(er.save(em), HttpStatus.CREATED);
+      } else {
+        return new ResponseEntity<EntregaModel>(er.save(em), HttpStatus.OK);
+      }
     }
   }
   
